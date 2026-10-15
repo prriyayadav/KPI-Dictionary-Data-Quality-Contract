@@ -1,4 +1,23 @@
-
+# KPI Dictionary & Data Quality Contract: Retail Sales
+ 
+Turns an ambiguous business request ("how are sales doing, and can I trust the numbers?") into 10 measurable KPIs and a testable agreement about what trustworthy data means.
+ 
+- **Dataset:** `retail_sales_dataset.csv`, 1,000 transactions (1 Jan 2023 to 1 Jan 2024), 3 product categories
+- **Decision owner:** Retail Sales Manager (category focus, promotions, age-group targeting)
+## Deliverables
+ 
+| File | What it is |
+|---|---|
+| `retail_kpi_dictionary.xlsx` | KPI dictionary (10 KPIs with formula, grain, filters, owner, refresh cadence, live values), breakdown tables, corrected data dictionary, check results, contract thresholds |
+| `retail_data_profile.ipynb` | Executed notebook: 30 checks across completeness, uniqueness, validity, consistency and freshness; PASS / WARN / FAIL grading; publish-or-block decision; KPI computation |
+| `data_quality_contract.md` | Guarantees, thresholds, release rule, escalation owners and response times, known limitations |
+| `retail_sales_dirty_sample.csv` | Copy of the data with 9 injected defects, used to prove the checks can fail |
+| `dq_results_dirty_sample.csv` | Notebook output on the dirty sample |
+ 
+## Workbook sheets
+ 
+| Sheet | Contents |
+|---|---|
 | `README` | Purpose, key findings, colour code |
 | `kpi_dictionary` | 10 KPIs with live formula values |
 | `kpi_breakdowns` | Sales by category, age group and month (with MoM growth), plus reconciliation checks that must read OK |
