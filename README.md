@@ -1,4 +1,4 @@
-|---|---|
+
 | `README` | Purpose, key findings, colour code |
 | `kpi_dictionary` | 10 KPIs with live formula values |
 | `kpi_breakdowns` | Sales by category, age group and month (with MoM growth), plus reconciliation checks that must read OK |
