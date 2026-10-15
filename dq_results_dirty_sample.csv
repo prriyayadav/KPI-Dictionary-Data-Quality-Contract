@@ -1,0 +1,31 @@
+check_id,dimension,rule,failing_rows,failure_rate_pct,warn_above_pct,fail_at_pct,status,severity,note
+CMP-00,Completeness,All 9 expected columns present,,,,,PASS,High,observed: none missing
+CMP-01,Completeness,Transaction ID is not null or blank,0.0,0.0,0.0,1.0,PASS,High,
+CMP-02,Completeness,Date is not null or blank,0.0,0.0,0.0,1.0,PASS,High,
+CMP-03,Completeness,Customer ID is not null or blank,1.0,0.1,0.0,1.0,WARN,High,
+CMP-04,Completeness,Gender is not null or blank,0.0,0.0,0.0,1.0,PASS,High,
+CMP-05,Completeness,Age is not null or blank,0.0,0.0,0.0,1.0,PASS,High,
+CMP-06,Completeness,Product Category is not null or blank,0.0,0.0,0.0,1.0,PASS,High,
+CMP-07,Completeness,Quantity is not null or blank,0.0,0.0,0.0,1.0,PASS,High,
+CMP-08,Completeness,Price per Unit is not null or blank,0.0,0.0,0.0,1.0,PASS,High,
+CMP-09,Completeness,Total Amount is not null or blank,0.0,0.0,0.0,1.0,PASS,High,
+UNQ-01,Uniqueness,Transaction ID is unique (grain = 1 row per transaction),2.0,0.2,0.0,0.1,FAIL,High,
+UNQ-02,Uniqueness,No fully duplicated rows,0.0,0.0,0.0,0.1,PASS,High,
+UNQ-03,Uniqueness,Customer ID repeats across transactions (informational),0.0,0.0,100.0,101.0,PASS,Info,"0 repeats means each customer appears once, so repeat-purchase KPIs cannot be built from this extract"
+VAL-01,Validity,Transaction ID is a positive integer,0.0,0.0,0.0,0.5,PASS,High,
+VAL-02,Validity,Date parses as %d-%m-%Y (dd-mm-yyyy),1.0,0.1,0.0,0.5,WARN,High,
+VAL-03,Validity,Date is not in the future,1.0,0.1,0.0,0.1,FAIL,High,
+VAL-04,Validity,Customer ID matches CUST + digits,1.0,0.1,0.0,0.5,WARN,High,
+VAL-05,Validity,Gender is Male or Female,1.0,0.1,0.0,1.0,WARN,High,
+VAL-06,Validity,Age is a whole number 18-100,1.0,0.1,0.0,0.5,WARN,High,
+VAL-07,Validity,Product Category is in the approved list,1.0,0.1,0.0,0.5,WARN,High,
+VAL-08,Validity,Quantity is a whole number > 0,1.0,0.1,0.0,0.5,WARN,High,
+VAL-09,Validity,Price per Unit > 0,0.0,0.0,0.0,0.5,PASS,High,
+VAL-10,Validity,Total Amount >= 0,0.0,0.0,0.0,0.5,PASS,High,
+CON-01,Consistency,Total Amount = Quantity x Price per Unit,2.0,0.2,0.0,0.5,WARN,High,
+CON-02,Consistency,"Price points per category (informational: price list looks tiered, not one price)",,,,,PASS,Info,"observed: {'Beauty': 5, 'Clothing': 5, 'Electronic': 1, 'Electronics': 5}"
+CON-03,Consistency,Transaction IDs are contiguous (no missing IDs),,,,,WARN,Medium,observed: 2 gaps
+CON-04,Consistency,Text columns have no leading/trailing spaces or case drift,1.0,0.1,0.0,0.5,WARN,Medium,
+CON-05,Consistency,Latest month is a complete period (rows >= 50% of typical month),,,,,WARN,Medium,"observed: 2030-10: 1 rows vs typical 78 | a partial month distorts MoM growth, so the KPI dictionary excludes it"
+FRS-01,Freshness,Newest transaction is <= 1 day old,,,,,FAIL,High,"observed: newest=2024-01-01, as-of=2026-10-15, lag=1018 days | this file is a historical snapshot, so FAIL is expected; the check proves the monitor would catch a stalled feed"
+FRS-02,Freshness,Data covers >= 12 months (needed for seasonality / MoM),,,,,PASS,Low,observed: 365 days
